@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.admin.myapplication.LoginActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:background="@drawable/wall4">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gossip*"
+        android:textColor="#000"
+        android:textSize="45sp"
+        android:textStyle="bold|italic"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:id="@+id/edtuser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="#000"
+        android:hint="Username"
+        android:inputType="text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="167dp"
+        android:gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/edtpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:textSize="30sp"
+        android:textColor="#000"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_below="@+id/edtuser"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_horizontal">
+
+    </EditText>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:background="#000"
+        android:text="   SIGN IN   "
+        android:textStyle="bold"
+        android:textColor="#89bfe5"
+        android:textSize="40sp"
+        android:layout_below="@+id/edtpass"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

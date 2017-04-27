@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/wall4"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    tools:context="com.example.admin.myapplication.RegisterActivity">
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Gossip* SignUp"
+       android:id="@+id/txt"
+       android:textSize="35sp"
+       android:textStyle="bold"
+       android:layout_centerHorizontal="true"
+       android:layout_marginBottom="20sp"
+       android:textColor="#000"/>
+
+    <EditText
+        android:id="@+id/edtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:layout_below="@+id/txt"
+        android:gravity="center_horizontal"
+        android:hint="Full Name" />
+    <EditText
+        android:id="@+id/edtAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtName"
+        android:layout_marginBottom="10sp"
+        android:gravity="center_horizontal"
+        android:hint="City" />
+    <EditText
+        android:id="@+id/edtEmailID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtAddress"
+        android:layout_marginBottom="10sp"
+        android:gravity="center_horizontal"
+        android:hint="Email Id" />
+ <EditText
+     android:id="@+id/edtPhone"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/edtEmailID"
+     android:layout_marginBottom="10sp"
+     android:gravity="center_horizontal"
+     android:hint="Phone Number" />
+
+    <EditText
+        android:id="@+id/edtUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtPhone"
+        android:layout_marginBottom="10sp"
+        android:gravity="center_horizontal"
+        android:hint="Username" />
+
+
+    <EditText
+        android:id="@+id/edtPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtUser"
+        android:layout_marginBottom="10sp"
+        android:gravity="center_horizontal"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtPass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30sp"
+        android:layout_marginTop="30sp"
+        android:background="#000"
+        android:text=" SIGN UP "
+        android:textColor="#2ef"
+        android:textSize="35sp"
+        android:textStyle="bold"
+       />
+
+
+
+
+</RelativeLayout>

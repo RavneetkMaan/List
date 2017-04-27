@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.admin.myapplication.ProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/viewA"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:background="@android:color/holo_blue_light"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/profilePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/tulips"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/viewB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:orientation="vertical"
+            tools:background="@drawable/sky">
+
+
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Name"
+                android:paddingLeft="20sp"
+                android:paddingRight="20sp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+
+
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Phone"
+                android:paddingLeft="20sp"
+                android:paddingRight="20sp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your EmailID"
+                android:paddingLeft="20sp"
+                android:paddingRight="20sp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+
+
+            <EditText
+                android:id="@+id/edtCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your City"
+                android:paddingLeft="20sp"
+                android:paddingRight="20sp"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btnDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/camera"
+        app:backgroundTint="#fff"
+        app:fabSize="normal"
+        app:layout_anchor="@+id/viewA"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>

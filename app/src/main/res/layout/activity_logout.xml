@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sky"
+    tools:context="com.example.admin.myapplication.LogoutActivity">
+
+    <TextView
+        android:id="@+id/txtLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="50sp"
+        android:paddingTop="180sp"
+        android:text="Surely, Do you want to LogOut form Gossip*"
+        android:textColor="#000"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLogOut"
+        android:text="LogOut"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:paddingTop="30sp"
+        android:background="@android:color/transparent"/>
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnLogOut"
+        android:text="Cancel"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:paddingTop="30sp"
+        android:background="@android:color/transparent"/>
+
+</RelativeLayout>
