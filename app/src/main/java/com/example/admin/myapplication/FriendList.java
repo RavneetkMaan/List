@@ -1,20 +1,16 @@
 package com.example.admin.myapplication;
 
-import android.widget.Button;
-
 /**
  * Created by admin on 4/27/2017.
  */
 
-public class Member {
+public class FriendList {
 
-    private String name,emailId;
+    String name,emailId;
 
-
-    public Member(String name, String emailId ) {
+    public FriendList(String name, String emailId) {
         this.name = name;
         this.emailId = emailId;
-
     }
 
     public String getName() {
@@ -25,7 +21,6 @@ public class Member {
         return emailId;
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
@@ -33,5 +28,4 @@ public class Member {
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }
-
 }

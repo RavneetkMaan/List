@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edtuser,edtpass;
     private Button btnLogin;
-    private String user,pass;
+    private String user,pass,applicationUserId;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -82,11 +82,12 @@ public class LoginActivity extends AppCompatActivity {
                 user=edtuser.getText().toString().trim();
                 pass=edtpass.getText().toString().trim();
 
-                sharedPreferences=getSharedPreferences("My Prefrence", Context.MODE_PRIVATE);
+                sharedPreferences=getSharedPreferences("My LoginPrefrence", Context.MODE_PRIVATE);
                 editor=sharedPreferences.edit();
 
                 editor.putString("user_key",user);
                 editor.putString("pass_key",pass);
+                editor.putString("appUserId_key",applicationUserId);
                 editor.commit();
             }
         });
@@ -124,6 +125,10 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
+
+               // applicationUserId = jsonObject.getString("ApplicationUserId");
+                //Log.d("ApplicationUserId", applicationUserId);
+
                 success = jsonObject.getBoolean("success");
                 Log.d("Success", String.valueOf(success));
                 ErrorMessage = jsonObject.getString("ErrorMessage");

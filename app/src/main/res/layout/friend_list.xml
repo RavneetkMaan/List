@@ -34,18 +34,4 @@
 
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/btnAddFriend"
-        android:layout_width="wrap_content"
-        android:layout_height="25sp"
-        android:layout_below="@+id/rel1"
-        android:layout_marginTop="15sp"
-        android:background="#000"
-        android:text=" ADD FRIEND "
-        android:textColor="#89bfe5"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="250sp"/>
-
 </RelativeLayout>

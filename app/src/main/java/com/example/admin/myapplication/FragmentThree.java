@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.example.admin.myapplication.R.id.btnAddFriend;
 import static com.example.admin.myapplication.R.id.lv3;
 
 
@@ -40,23 +42,24 @@ public class FragmentThree extends Fragment {
     private HttpRequestProcessor httpRequestProcessor;
     private Response response;
     private ApiConfiguration apiConfiguration;
-    private String baseURL, urlGetApplicationMemberList, jsonStringToPost, jsonResponseString;
+    private String baseURL, urlGetApplicationMemberList, jsonStringToPost, urlAddFriendList;
     private boolean success;
-    private String message, name, emailID, jsonResponse;
+    private String message, name, emailID, jsonResponse, memberId, friendId, requestBy;
     private int userID;
     private Member member;
     private ArrayList<Member> memberArrayList;
+    private String jsonPostString, jsonResponseString;
     String[] Name;
     String[] emailId;
     Adapter_memberList adapter_memberList;
+    private Button btnAddFriend;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_three, container, false);
 
-        String[] name;
-        String[] emailId;
+
 
         ListView lv = (ListView) view.findViewById(R.id.lv3);
         httpRequestProcessor = new HttpRequestProcessor();
@@ -72,9 +75,12 @@ public class FragmentThree extends Fragment {
 
         adapter_memberList = new Adapter_memberList(getActivity(), memberArrayList);
         lv.setAdapter(adapter_memberList);
-        return view;
 
+
+
+        return view;
     }
+
 
     public class getMemberListTask extends AsyncTask<String, String, String> {
 
@@ -83,8 +89,8 @@ public class FragmentThree extends Fragment {
         protected String doInBackground(String... params) {
 
 
-            jsonResponse = httpRequestProcessor.gETRequestProcessor(urlGetApplicationMemberList);
-            return jsonResponse;
+                jsonResponse = httpRequestProcessor.gETRequestProcessor(urlGetApplicationMemberList);
+                 return jsonResponse;
         }
 
         @Override
@@ -107,13 +113,13 @@ public class FragmentThree extends Fragment {
                         Log.d("Name", name);
                         emailID = object.getString("EmailId");
                         Log.d("EmailId", emailID);
+
                         member = new Member(name, emailID);
                         memberArrayList.add(member);
+
                     }
                     adapter_memberList.notifyDataSetChanged();
                     Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                    //Intent intent = new Intent(getActivity(), ChatListActivity.class);
-                    //startActivity(intent);
                 } else {
                     Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 }
@@ -122,9 +128,8 @@ public class FragmentThree extends Fragment {
                 e.printStackTrace();
             }
         }
-
-
     }
+
 }
 
 
