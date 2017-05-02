@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/bar3"
         android:title="Gossip*"
-        app:titleTextColor="#fff"
+        app:titleTextColor="#89bfe5"
         />
 
     <android.support.design.widget.TabLayout

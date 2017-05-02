@@ -2,16 +2,34 @@ package com.example.admin.myapplication;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.admin.myapplication.Adapter.Adapter_Request;
+import com.example.admin.myapplication.Adapter.Adapter_memberList;
+import com.example.admin.myapplication.HttpRequestProcessor.HttpRequestProcessor;
+import com.example.admin.myapplication.HttpRequestProcessor.Response;
+import com.example.admin.myapplication.apiConfiguration.ApiConfiguration;
+import com.example.admin.myapplication.sharedPref.MyPref;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by admin on 3/30/2017.
@@ -19,60 +37,109 @@ import android.widget.TextView;
 
 public class FragmentTwo extends Fragment {
 
-    //datasource
-    String[] name={"Name","Name","Name","Name","Name"};
-    String[] desc={"Status","Status","Status","Status","Status"};
-    int[] image={R.drawable.chrysanthemum,R.drawable.hydrangeas,R.drawable.tulips,R.drawable.penguins,R.drawable.koala};
+    private HttpRequestProcessor httpRequestProcessor;
+    private Response response;
+    private ApiConfiguration apiConfiguration;
+    private String baseURL, urlMyFriendRequest, jsonStringToPost, urlRequest;
+    private boolean success;
+    private String message, name, jsonResponse, loggedInUserID,ApplicationFriendAssociationId;
+
+    private Request request;
+    private ArrayList<Request> RequestArrayList;
+    String[] Name;
+    Adapter_Request adapter_request;
+    private int memberID;
+    private int ApplicationUserId;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private int logID;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tab_two,container,false);
+        View view = inflater.inflate(R.layout.fragment_tab_two, container, false);
+
+        ListView lv = (ListView) view.findViewById(R.id.lv2);
+        httpRequestProcessor = new HttpRequestProcessor();
+        response = new Response();
+        apiConfiguration = new ApiConfiguration();
+        sharedPreferences = getActivity().getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
+        loggedInUserID = sharedPreferences.getString(MyPref.LoggedInUserID, null);
+        logID = Integer.parseInt(loggedInUserID);
+
+        //editor=sharedPreferences.edit();
+       // editor.putString(MyPref.ApplicationFriendAssociationId,ApplicationFriendAssociationId);
+        //editor.commit();
+
+        //ApplicationFriendAssociationId=sharedPreferences.getString(MyPref.ApplicationFriendAssociationId,null);
+       //ApplicationUserId=Integer.parseInt(ApplicationFriendAssociationId);
+
+        //Getting base url
+        baseURL = apiConfiguration.getApi();
+        urlMyFriendRequest = baseURL + "ApplicationFriendAPI/MyFriendRequest/" + logID;
+        RequestArrayList = new ArrayList<>();
+        new RequestTask().execute();
+
+
+        adapter_request = new Adapter_Request(getActivity(), RequestArrayList);
+        lv.setAdapter(adapter_request);
+
+
+        return view;
     }
 
-    //onActivityCreated
+    public class RequestTask extends AsyncTask<String, String, String> {
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        ListView lv2=(ListView)getActivity().findViewById(R.id.lv2);
-        MyAdapter dd2=new MyAdapter();
-        lv2.setAdapter(dd2);
+
+        @Override
+        protected String doInBackground(String... params) {
+            jsonResponse = httpRequestProcessor.gETRequestProcessor(urlMyFriendRequest);
+            return jsonResponse;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("Response String", s);
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                success = jsonObject.getBoolean("success");
+                Log.d("Success", String.valueOf(success));
+                message = jsonObject.getString("message");
+                Log.d("message", message);
+
+                if (success) {
+                    JSONArray responseData = jsonObject.getJSONArray("responseData");
+                    for (int i = 0; i < responseData.length(); i++) {
+                        JSONObject object = responseData.getJSONObject(i);
+                        name = object.getString("MemberName");
+                        Log.d("MemberName", name);
+
+                        memberID = object.getInt("FriendId");
+                       ApplicationFriendAssociationId = object.getString("ApplicationFriendAssociationId");
+                       request = new Request(name, memberID,Integer.parseInt(ApplicationFriendAssociationId));
+
+                        //sharedPreferences = Context.getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
+                       // editor = sharedPreferences.edit();
+                        //editor.putString(MyPref.ApplicationFriendAssociationId,ApplicationFriendAssociationId);
+                        //editor.commit();
+                        RequestArrayList.add(request);
+
+                    }
+                    adapter_request.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    class MyAdapter extends BaseAdapter{
 
-        @Override
-        public int getCount() {
-            return name.length;
-        }
 
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater= (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            convertView=inflater.inflate(R.layout.requests,parent,false);
-
-            TextView txt1= (TextView) convertView.findViewById(R.id.txtName);
-            TextView txt2= (TextView) convertView.findViewById(R.id.txtDesc);
-            ImageView imageView= (ImageView) convertView.findViewById(R.id.imageView1);
-
-            txt1.setText(name[position]);
-            txt2.setText(desc[position]);
-            imageView.setImageResource(image[position]);
-            return convertView;
-        }
-    }
 }

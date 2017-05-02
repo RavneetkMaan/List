@@ -1,6 +1,7 @@
 package com.example.admin.myapplication.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.example.admin.myapplication.HttpRequestProcessor.Response;
 import com.example.admin.myapplication.Member;
 import com.example.admin.myapplication.R;
 import com.example.admin.myapplication.apiConfiguration.ApiConfiguration;
+import com.example.admin.myapplication.sharedPref.MyPref;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +38,10 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
     private boolean success;
     private String jsonResponse, memberId, friendId, requestBy;
     private String jsonPostString, jsonResponseString;
-    private String message;
+    private String message, name, emailId;
+    private int memberID, loggedInUserID;
+    private SharedPreferences sharedPreferences;
+    private String loggedInId;
 
     private Context context;
     private Button btnAddFriend;
@@ -76,8 +81,10 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
 
         Member member = memberArrayList.get(position);
 
-        String name = member.getName();
-        String emailId = member.getEmailId();
+        name = member.getName();
+        emailId = member.getEmailId();
+        int mId = member.getMemberID();
+        memberId = String.valueOf(mId);
         //Button btnAdd = member.getBtnAddFriend();
 
         txt1.setText(name);
@@ -101,7 +108,11 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
                 baseURL = apiConfiguration.getApi();
                 urlAddFriend = baseURL + "ApplicationFriendAPI/AddFriendRequest";
 
-                new AddFriendTask().execute();
+                //Getting LoggedIn user Detail from SharedPreference
+                sharedPreferences = context.getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
+                loggedInId = sharedPreferences.getString(MyPref.LoggedInUserID, null);
+
+                new AddFriendTask(v).execute(memberId, loggedInId);
                 //Toast.makeText(context,"Clicked",Toast.LENGTH_LONG).show();
                 break;
         }
@@ -109,20 +120,32 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
 
     public class AddFriendTask extends AsyncTask<String, String, String> {
 
+        private View view;
+
+        public AddFriendTask(View view) {
+            this.view = view;
+        }
+
 
         @Override
         protected String doInBackground(String... params) {
 
-            memberId = params[0];
-            Log.e("MemberId", memberId);
-            friendId = params[1];
-            requestBy= params[2];
+            friendId = params[0];
+            Log.e("friendId", friendId);
+
+            loggedInId = params[1];
+            Log.e("loggedInUserId", loggedInId);
+            //requestBy = params[2];
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("MemberId", memberId);
+                jsonObject.put("MemberId", loggedInId);
+                Log.d("MemberId", loggedInId);
                 jsonObject.put("FriendId", friendId);
-                jsonObject.put("RequestBy", requestBy);
+                Log.d("FriendId", memberId);
+                jsonObject.put("RequestBy", loggedInId);
+                jsonObject.put("CreatedBy", loggedInId);
+                jsonObject.put("ModifiedBy", loggedInId);
 
                 jsonPostString = jsonObject.toString();
                 response = httpRequestProcessor.pOSTRequestProcessor(jsonPostString, urlAddFriend);
@@ -149,23 +172,15 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
                 message = jsonObject.getString("message");
                 Log.d("message", message);
 
+
                 if (success) {
-                    JSONArray responseData = jsonObject.getJSONArray("responseData");
-                    for (int i = 0; i < responseData.length(); i++) {
-                        JSONObject object = responseData.getJSONObject(i);
-                        memberId = object.getString("MemberId");
-                        Log.d("MemberId", memberId);
-                        friendId = object.getString("FriendId");
-                        Log.d("FriendId", friendId);
-                        requestBy= object.getString("RequestBy");
-                        Log.d("RequestBy", requestBy);
-                        Toast.makeText(context.getApplicationContext(), "Request sent successfully", Toast.LENGTH_LONG).show();
-                        btnAddFriend.setText("SENT");
-                    }
-                }else{
+                    Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    ((Button)view).setText("Request Sent");
+
+                } else {
                     Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 }
-            } catch(JSONException e){
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }

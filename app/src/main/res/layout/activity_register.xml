@@ -14,9 +14,9 @@
    <TextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="Gossip* SignUp"
+       android:text="  Gossip* "
        android:id="@+id/txt"
-       android:textSize="35sp"
+       android:textSize="40sp"
        android:textStyle="bold"
        android:layout_centerHorizontal="true"
        android:layout_marginBottom="20sp"
@@ -87,7 +87,7 @@
         android:layout_marginTop="30sp"
         android:background="#000"
         android:text=" SIGN UP "
-        android:textColor="#2ef"
+        android:textColor="#89bfe5"
         android:textSize="35sp"
         android:textStyle="bold"
        />

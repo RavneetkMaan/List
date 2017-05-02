@@ -13,14 +13,22 @@
     android:paddingTop="16dp"
     android:background="@drawable/wall4">
     <TextView
+        android:id="@+id/txt1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gossip*"
         android:textColor="#000"
-        android:textSize="45sp"
+        android:textSize="40sp"
         android:textStyle="bold|italic"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_marginTop="5sp"/>
+    <ImageView
+        android:layout_width="100sp"
+        android:layout_height="80sp"
+        android:background="@drawable/glogo"
+        android:layout_below="@+id/txt1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15sp"/>
 
     <EditText
         android:id="@+id/edtuser"
@@ -61,7 +69,7 @@
         android:text="   SIGN IN   "
         android:textStyle="bold"
         android:textColor="#89bfe5"
-        android:textSize="40sp"
+        android:textSize="35sp"
         android:layout_below="@+id/edtpass"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

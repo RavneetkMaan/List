@@ -23,21 +23,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtLogOut"
+        android:layout_marginLeft="40sp"
+        android:layout_marginRight="40sp"
+        android:layout_marginTop="40sp"
+        android:background="#000"
         android:text="LogOut"
+        android:textColor="#89bfe5"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:paddingTop="30sp"
-        android:background="@android:color/transparent"/>
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnLogOut"
+        android:layout_marginLeft="40sp"
+        android:layout_marginRight="40sp"
+        android:layout_marginTop="40sp"
+        android:background="#000"
         android:text="Cancel"
+        android:textColor="#89bfe5"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:paddingTop="30sp"
-        android:background="@android:color/transparent"/>
+        android:textStyle="bold" />
 
 </RelativeLayout>

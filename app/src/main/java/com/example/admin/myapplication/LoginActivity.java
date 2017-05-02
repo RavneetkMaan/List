@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.admin.myapplication.HttpRequestProcessor.HttpRequestProcessor;
 import com.example.admin.myapplication.HttpRequestProcessor.Response;
 import com.example.admin.myapplication.apiConfiguration.ApiConfiguration;
+import com.example.admin.myapplication.sharedPref.MyPref;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,9 +23,10 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText edtuser,edtpass;
+    private EditText edtuser, edtpass;
     private Button btnLogin;
-    private String user,pass,applicationUserId;
+    private int loggedInUserID;
+    private String user, pass, applicationUserId;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private ApiConfiguration apiConfiguration;
     private String baseURL, urlLogin, jsonStringToPost, jsonResponseString;
     private boolean success;
-    private String ErrorMessage;// address, emailID, phone, password, userName;
+    private String ErrorMessage, name, emailId;// address, emailID, phone, password, userName;
     private int userID;
 
     @Override
@@ -56,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         urlLogin = baseURL + "AccountAPI/GetLoginUser";
 
 
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,20 +76,22 @@ public class LoginActivity extends AppCompatActivity {
                     edtpass.setError("Password is not entered");
                     edtpass.requestFocus();
                 } else {
-                    Intent intent = new Intent(getApplicationContext(),ChatListActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ChatListActivity.class);
                     startActivity(intent);
                 }
 
-                user=edtuser.getText().toString().trim();
-                pass=edtpass.getText().toString().trim();
+                user = edtuser.getText().toString().trim();
+                pass = edtpass.getText().toString().trim();
 
-                sharedPreferences=getSharedPreferences("My LoginPrefrence", Context.MODE_PRIVATE);
-                editor=sharedPreferences.edit();
+                /*sharedPreferences = getSharedPreferences("My LoginPrefrence", Context.MODE_PRIVATE);
+                editor = sharedPreferences.edit();
 
-                editor.putString("user_key",user);
-                editor.putString("pass_key",pass);
-                editor.putString("appUserId_key",applicationUserId);
+                editor.putString("user_key", user);
+                editor.putString("pass_key", pass);
+                editor.putString("appUserId_key", applicationUserId);
                 editor.commit();
+*/
+                // new LoginTask().execute(user, pass);
             }
         });
 
@@ -101,11 +104,13 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             user = params[0];
             pass = params[1];
+            // applicationUserId=params[2];
 
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("UserName", user);
                 jsonObject.put("Password", pass);
+                //jsonObject.put("ApplicationUserId",applicationUserId);
 
                 jsonStringToPost = jsonObject.toString();
                 response = httpRequestProcessor.pOSTRequestProcessor(jsonStringToPost, urlLogin);
@@ -125,22 +130,32 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
-
-               // applicationUserId = jsonObject.getString("ApplicationUserId");
-                //Log.d("ApplicationUserId", applicationUserId);
-
                 success = jsonObject.getBoolean("success");
                 Log.d("Success", String.valueOf(success));
                 ErrorMessage = jsonObject.getString("ErrorMessage");
+
+
                 Log.d("ErrorMessage", ErrorMessage);
 
-                if (success==true) {
-                    Toast.makeText(LoginActivity.this,ErrorMessage,Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(LoginActivity.this,ChatListActivity.class);
+                if (ErrorMessage.equals("User Authenticated!!")) {
+
+                    //JSONObject object = responseData.getJSONObject();
+                    name = jsonObject.getString("Name");
+                    applicationUserId = jsonObject.getString("ApplicationUserId");
+                    emailId = jsonObject.getString("EmailId");
+                    Log.d("ApplicationUserId", applicationUserId);
+                    sharedPreferences = getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
+                    editor = sharedPreferences.edit();
+                    editor.putString(MyPref.UserName, name);
+                    editor.putString(MyPref.EmailId, emailId);
+                    editor.putString(MyPref.LoggedInUserID, applicationUserId);
+                    editor.commit();
+                    Toast.makeText(LoginActivity.this, ErrorMessage, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(LoginActivity.this, ChatListActivity.class);
                     startActivity(intent);
 
-                } else if (success==false){
-                    Toast.makeText(LoginActivity.this,ErrorMessage, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, ErrorMessage, Toast.LENGTH_LONG).show();
                 }
 
 

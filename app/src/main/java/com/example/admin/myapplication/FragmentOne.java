@@ -1,5 +1,6 @@
 package com.example.admin.myapplication;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.example.admin.myapplication.Adapter.Adapter_memberList;
 import com.example.admin.myapplication.HttpRequestProcessor.HttpRequestProcessor;
 import com.example.admin.myapplication.HttpRequestProcessor.Response;
 import com.example.admin.myapplication.apiConfiguration.ApiConfiguration;
+import com.example.admin.myapplication.sharedPref.MyPref;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,13 +39,17 @@ public class FragmentOne extends Fragment {
     private ApiConfiguration apiConfiguration;
     private String baseURL, urlFriendList, jsonStringToPost, jsonResponseString;
     private boolean success;
-    private String message, name, emailID, jsonResponse;
-    private int userID;
+    private String message, name,jsonResponse,loggedInUserID;
     private FriendList friendList;
     private ArrayList<FriendList> friendListArrayList;
     String[] Name;
-    String[] emailId;
     Adapter_friendList adapter_friendList;
+    private String memberId,friendId;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private int logID;
+    private String loggedInId;
+    private int memberID;
 
     @Nullable
     @Override
@@ -55,13 +61,15 @@ public class FragmentOne extends Fragment {
         httpRequestProcessor = new HttpRequestProcessor();
         response = new Response();
         apiConfiguration = new ApiConfiguration();
+        sharedPreferences = getActivity().getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
+        loggedInUserID = sharedPreferences.getString(MyPref.LoggedInUserID, null);
+        logID = Integer.parseInt(loggedInUserID);
 
         //Getting base url
         baseURL = apiConfiguration.getApi();
-        urlFriendList = baseURL + "ApplicationFriendAPI/MyFriendList/{MemberId}";
+        urlFriendList = baseURL + "ApplicationFriendAPI/MyFriendList/"+logID;
         friendListArrayList = new ArrayList<>();
-        new FragmentOne.getFriendListTask().execute();
-
+        new getFriendListTask().execute();
 
         adapter_friendList = new Adapter_friendList(getActivity(), friendListArrayList);
         lv.setAdapter(adapter_friendList);
@@ -76,6 +84,7 @@ public class FragmentOne extends Fragment {
 
             jsonResponse = httpRequestProcessor.gETRequestProcessor(urlFriendList);
             return jsonResponse;
+
         }
 
         @Override
@@ -94,18 +103,18 @@ public class FragmentOne extends Fragment {
                     JSONArray responseData = jsonObject.getJSONArray("responseData");
                     for (int i = 0; i < responseData.length(); i++) {
                         JSONObject object = responseData.getJSONObject(i);
-                        name = object.getString("Name");
-                        Log.d("Name", name);
-                        emailID = object.getString("EmailId");
-                        Log.d("EmailId", emailID);
+                        name = object.getString("MemberName");
+                        Log.d("MemberName", name);
 
-                        friendList = new FriendList(name, emailID);
+                        memberId = object.getString("MemberId");
+                        Log.d("MemberId",memberId);
+                        memberID=Integer.parseInt(memberId);
+
+                        friendList = new FriendList(name,memberID);
                         friendListArrayList.add(friendList);
                     }
                     adapter_friendList.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                    //Intent intent = new Intent(getActivity(), ChatListActivity.class);
-                    //startActivity(intent);
+                   Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 }
@@ -115,6 +124,4 @@ public class FragmentOne extends Fragment {
             }
         }
     }
-
-
 }

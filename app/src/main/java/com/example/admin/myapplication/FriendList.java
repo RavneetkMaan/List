@@ -6,26 +6,28 @@ package com.example.admin.myapplication;
 
 public class FriendList {
 
-    String name,emailId;
+    String name;
+    private int memberId;
 
-    public FriendList(String name, String emailId) {
+
+    public FriendList(String name, int memberId) {
         this.name = name;
-        this.emailId = emailId;
+        this.memberId = memberId;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public int getMemberId() {
+        return memberId;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 }

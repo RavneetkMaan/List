@@ -22,6 +22,7 @@ public class Adapter_friendList extends BaseAdapter {
     private Context context;
     private ArrayList<FriendList> friendListArrayList;
     private LayoutInflater inflater;
+    private String memberId;
 
     public Adapter_friendList(Context context, ArrayList<FriendList> friendListArrayList) {
         this.context = context;
@@ -50,15 +51,15 @@ public class Adapter_friendList extends BaseAdapter {
         convertView=inflater.inflate(R.layout.friend_list,parent,false);
 
         TextView txt1 = (TextView) convertView.findViewById(R.id.txtName);
-        TextView txt2 = (TextView) convertView.findViewById(R.id.txtEmailId);
 
         FriendList friendList=friendListArrayList.get(position);
 
         String name= friendList.getName();
-        String emailId=friendList.getEmailId();
+
 
         txt1.setText(name);
-        txt2.setText(emailId);
+        int mId = friendList.getMemberId();
+        memberId = String.valueOf(mId);
 
         return convertView;
     }

@@ -8,12 +8,14 @@ import android.widget.Button;
 
 public class Member {
 
-    private String name,emailId;
+    private String name, emailId;
+    private int memberID;
 
 
-    public Member(String name, String emailId ) {
+    public Member(String name, String emailId, int memberID) {
         this.name = name;
         this.emailId = emailId;
+        this.memberID = memberID;
 
     }
 
@@ -34,4 +36,11 @@ public class Member {
         this.emailId = emailId;
     }
 
+    public int getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(int memberID) {
+        this.memberID = memberID;
+    }
 }

@@ -42,9 +42,9 @@ public class FragmentThree extends Fragment {
     private HttpRequestProcessor httpRequestProcessor;
     private Response response;
     private ApiConfiguration apiConfiguration;
-    private String baseURL, urlGetApplicationMemberList, jsonStringToPost, urlAddFriendList;
+    private String baseURL, urlGetApplicationMemberList, jsonStringToPost;
     private boolean success;
-    private String message, name, emailID, jsonResponse, memberId, friendId, requestBy;
+    private String message, name, emailID, jsonResponse;
     private int userID;
     private Member member;
     private ArrayList<Member> memberArrayList;
@@ -53,6 +53,8 @@ public class FragmentThree extends Fragment {
     String[] emailId;
     Adapter_memberList adapter_memberList;
     private Button btnAddFriend;
+    private int memberID;
+
 
     @Nullable
     @Override
@@ -113,8 +115,8 @@ public class FragmentThree extends Fragment {
                         Log.d("Name", name);
                         emailID = object.getString("EmailId");
                         Log.d("EmailId", emailID);
-
-                        member = new Member(name, emailID);
+                        memberID = object.getInt("MemberId");
+                        member = new Member(name, emailID,memberID);
                         memberArrayList.add(member);
 
                     }
