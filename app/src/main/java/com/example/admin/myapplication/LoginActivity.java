@@ -62,11 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Getting name and password
-                user = edtuser.getText().toString();
-                pass = edtpass.getText().toString();
 
-                new LoginTask().execute(user, pass);
 
                 if (edtuser.getText().toString().trim().length() == 0) {
                     edtuser.setError("Username is not entered");
@@ -76,8 +72,14 @@ public class LoginActivity extends AppCompatActivity {
                     edtpass.setError("Password is not entered");
                     edtpass.requestFocus();
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), ChatListActivity.class);
-                    startActivity(intent);
+                    //Getting name and password
+                    user = edtuser.getText().toString();
+                    pass = edtpass.getText().toString();
+
+                    new LoginTask().execute(user, pass);
+
+                    //Intent intent = new Intent(getApplicationContext(), ChatListActivity.class);
+                    //startActivity(intent);
                 }
 
                 user = edtuser.getText().toString().trim();

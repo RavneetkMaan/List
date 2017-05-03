@@ -36,12 +36,12 @@ public class ChatActivity extends AppCompatActivity {
 
         txtBack= (TextView) findViewById(R.id.txtBack);
         txtFullName= (TextView) findViewById(R.id.txtFullName);
-        txtStatus= (TextView) findViewById(R.id.txtBack);
+        //txtStatus= (TextView) findViewById(R.id.txtBack);
         imageView3= (ImageView) findViewById(R.id.imageView3);
-        fab= (FloatingActionButton) findViewById(R.id.fab);
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -71,10 +71,6 @@ public class ChatActivity extends AppCompatActivity {
                                 return false;
                         }
                     }
-                });
-
-
-            }
-        });
+                });*/
     }
 }

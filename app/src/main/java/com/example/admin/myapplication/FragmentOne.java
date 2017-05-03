@@ -1,5 +1,7 @@
 package com.example.admin.myapplication;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,19 +35,19 @@ import java.util.ArrayList;
  * Created by admin on 3/30/2017.
  */
 
-public class FragmentOne extends Fragment {
+public class FragmentOne extends Fragment implements AdapterView.OnItemClickListener {
 
     private HttpRequestProcessor httpRequestProcessor;
     private Response response;
     private ApiConfiguration apiConfiguration;
     private String baseURL, urlFriendList, jsonStringToPost, jsonResponseString;
     private boolean success;
-    private String message, name,jsonResponse,loggedInUserID;
+    private String message, name, jsonResponse, loggedInUserID;
     private FriendList friendList;
     private ArrayList<FriendList> friendListArrayList;
     String[] Name;
     Adapter_friendList adapter_friendList;
-    private String memberId,friendId;
+    private String memberId, friendId;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private int logID;
@@ -54,7 +57,7 @@ public class FragmentOne extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_tab_one,container,false);
+        View view = inflater.inflate(R.layout.fragment_tab_one, container, false);
 
 
         ListView lv = (ListView) view.findViewById(R.id.lv1);
@@ -67,14 +70,37 @@ public class FragmentOne extends Fragment {
 
         //Getting base url
         baseURL = apiConfiguration.getApi();
-        urlFriendList = baseURL + "ApplicationFriendAPI/MyFriendList/"+logID;
+        urlFriendList = baseURL + "ApplicationFriendAPI/MyFriendList/" + logID;
         friendListArrayList = new ArrayList<>();
         new getFriendListTask().execute();
 
         adapter_friendList = new Adapter_friendList(getActivity(), friendListArrayList);
         lv.setAdapter(adapter_friendList);
+
+        lv.setOnItemClickListener(this);
+
         return view;
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        /*if (position==0){
+            Intent i=new Intent(getActivity(),ChatActivity.class);
+            startActivity(i);
+        }
+        else {
+            Toast.makeText(getActivity(),"You pressed all other items",Toast.LENGTH_LONG).show();
+        }*/
+
+
+        // String name = ((TextView) view).getText().toString();
+        friendList = friendListArrayList.get(position);
+        name = friendList.getName();
+        Toast.makeText(getActivity(), name + " selected", Toast.LENGTH_LONG).show();
+        Intent i=new Intent(getActivity(),ChatActivity.class);
+        startActivity(i);
+    }
+
     public class getFriendListTask extends AsyncTask<String, String, String> {
 
 
@@ -107,14 +133,14 @@ public class FragmentOne extends Fragment {
                         Log.d("MemberName", name);
 
                         memberId = object.getString("MemberId");
-                        Log.d("MemberId",memberId);
-                        memberID=Integer.parseInt(memberId);
+                        Log.d("MemberId", memberId);
+                        memberID = Integer.parseInt(memberId);
 
-                        friendList = new FriendList(name,memberID);
+                        friendList = new FriendList(name, memberID);
                         friendListArrayList.add(friendList);
                     }
                     adapter_friendList.notifyDataSetChanged();
-                   Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 }
@@ -124,4 +150,6 @@ public class FragmentOne extends Fragment {
             }
         }
     }
+
+
 }

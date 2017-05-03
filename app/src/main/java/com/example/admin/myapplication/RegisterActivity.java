@@ -65,13 +65,39 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                name = edtName.getText().toString();
-                address = edtAddress.getText().toString();
-                emailID = edtEmailID.getText().toString();
-                phone = edtPhone.getText().toString();
-                userName = edtUser.getText().toString();
-                password = edtPass.getText().toString();
-                new RegistrationTask().execute(name, address, emailID, phone, userName, password);
+                if (edtName.getText().toString().trim().length() == 0) {
+                    edtName.setError("Name is not entered");
+                    edtName.requestFocus();
+                }
+                if (edtAddress.getText().toString().trim().length() == 0){
+                    edtAddress.setError("Address is not entered");
+                    edtAddress.requestFocus();
+                }
+                if (edtEmailID.getText().toString().trim().length() == 0){
+                    edtEmailID.setError("EmailId is not entered");
+                    edtEmailID.requestFocus();
+                }
+                if (edtPhone.getText().toString().trim().length() == 0){
+                    edtPhone.setError("Phone is not entered");
+                    edtPhone.requestFocus();
+                }
+                if (edtUser.getText().toString().trim().length() == 0) {
+                    edtUser.setError("Username is not entered");
+                    edtUser.requestFocus();
+                }
+                if (edtPass.getText().toString().trim().length() == 0) {
+                    edtPass.setError("Password is not entered");
+                    edtPass.requestFocus();
+                } else {
+                    name = edtName.getText().toString();
+                    address = edtAddress.getText().toString();
+                    emailID = edtEmailID.getText().toString();
+                    phone = edtPhone.getText().toString();
+                    userName = edtUser.getText().toString();
+                    password = edtPass.getText().toString();
+                    new RegistrationTask().execute(name, address, emailID, phone, userName, password);
+                }
+
                 //Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
                 //startActivity(intent);
 
