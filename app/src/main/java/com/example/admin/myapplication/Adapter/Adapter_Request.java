@@ -45,13 +45,14 @@ public class Adapter_Request extends BaseAdapter implements View.OnClickListener
     private ArrayList<Request> RequestArrayList;
     private LayoutInflater inflater;
     private Button btnAccept, btnDecline;
-    private String memberId;
+    private String memberId,applicationFriendAssociationId,status;
     private String loggedInId;
     private SharedPreferences sharedPreferences;
     private Request request;
     Adapter_Request adapter_request;
     private int memberID;
     private int ApplicationFriendAssociationId;
+    private int responseData;
 
     public Adapter_Request(Context context, ArrayList<Request> RequestArrayList) {
         this.context = context;
@@ -87,6 +88,14 @@ public class Adapter_Request extends BaseAdapter implements View.OnClickListener
         btnAccept = (Button) convertView.findViewById(R.id.btnAccept);
         btnDecline = (Button) convertView.findViewById(R.id.btnDecline);
         //Request request1 = RequestArrayList.get(position);
+        httpRequestProcessor = new HttpRequestProcessor();
+        response = new Response();
+        apiConfiguration = new ApiConfiguration();
+
+        //Getting base url
+        baseURL = apiConfiguration.getApi();
+        urlRequest = baseURL + "ApplicationFriendAPI/ActionOnFriendRequest";
+
 
         name = request.getName();
         int mId = request.getMemberId();
@@ -94,12 +103,14 @@ public class Adapter_Request extends BaseAdapter implements View.OnClickListener
         applicationFriendAssociationID = String.valueOf(request.getApplicationFriendAssociationID());
 
 
+        btnAccept.setTag(memberId);
+        btnDecline.setTag(memberId);
         txt1.setText(name);
 
 
         btnAccept.setOnClickListener(this);
         btnDecline.setOnClickListener(this);
-
+        //btnAccept.setTag(memberId);
 
         return convertView;
     }
@@ -109,30 +120,31 @@ public class Adapter_Request extends BaseAdapter implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAccept:
-                httpRequestProcessor = new HttpRequestProcessor();
-                response = new Response();
-                apiConfiguration = new ApiConfiguration();
+                //Retrieve Data from SharedPreference
+                sharedPreferences = context.getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
+                applicationFriendAssociationId = sharedPreferences.getString(MyPref.ApplicationFriendAssociationId, null);
 
-                //Getting base url
-                baseURL = apiConfiguration.getApi();
-                urlRequest = baseURL + "ApplicationFriendAPI/ActionOnFriendRequest";
+                status="Accept";
+                memberId = (String) v.getTag();
 
-                new ActionOnFriendRequestTask().execute(applicationFriendAssociationID);
+                new ActionOnFriendRequestTask().execute(applicationFriendAssociationId,status);
+                //new ActionOnFriendRequestTask().execute(applicationFriendAssociationID);
 
                 btnAccept.setText("Friends");
                 btnDecline.setVisibility(View.INVISIBLE);
                 break;
 
             case R.id.btnDecline:
-                httpRequestProcessor = new HttpRequestProcessor();
-                response = new Response();
-                apiConfiguration = new ApiConfiguration();
 
-                //Getting base url
-                baseURL = apiConfiguration.getApi();
-                urlRequest = baseURL + "ApplicationFriendAPI/ActionOnFriendRequest";
+                //Retrieve Data from SharedPreference
+                sharedPreferences = context.getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
+                applicationFriendAssociationId = sharedPreferences.getString(MyPref.ApplicationFriendAssociationId, null);
 
-                new ActionOnFriendRequestTask().execute(applicationFriendAssociationID);
+                status="Reject";
+                memberId = (String) v.getTag();
+
+                new ActionOnFriendRequestTask().execute(applicationFriendAssociationId,status);
+                //new ActionOnFriendRequestTask().execute(applicationFriendAssociationID);
                 btnAccept.setVisibility(View.INVISIBLE);
 
                 break;
@@ -144,13 +156,14 @@ public class Adapter_Request extends BaseAdapter implements View.OnClickListener
 
         @Override
         protected String doInBackground(String... params) {
+
+
             applicationFriendAssociationID = params[0];
             JSONObject jsonObject = new JSONObject();
 
             try {
                 jsonObject.put("ApplicationFriendAssociationId", applicationFriendAssociationID);
-                jsonObject.put("Status", "Accept");
-                jsonObject.put("Status","Reject");
+                jsonObject.put("Status", status);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -172,24 +185,37 @@ public class Adapter_Request extends BaseAdapter implements View.OnClickListener
                 Log.d("Success", String.valueOf(success));
                 message = jsonObject.getString("message");
                 Log.d("message", message);
+                if (success) {
 
+                    responseData = jsonObject.getInt("responseData");
+                    Log.d("responseData", String.valueOf(responseData));
+
+
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+
+
+
+
+
+                /*
                 if (success) {
                     JSONArray responseData = jsonObject.getJSONArray("responseData");
                     for (int i = 0; i < responseData.length(); i++) {
                         JSONObject object = responseData.getJSONObject(i);
-                        name=object.getString("MemberName");
-                        Log.e("MemberName",name );
+                        name=object.getString("FriendName");
+                        Log.e("FriendName",name );
                         applicationFriendAssociationID = object.getString("ApplicationFriendAssociationId");
                         //memberID = object.getInt("MemberId");
                         memberID=Integer.parseInt(memberId);
                         ApplicationFriendAssociationId=Integer.parseInt(applicationFriendAssociationID);
                         request = new Request(name,memberID,ApplicationFriendAssociationId);
                         RequestArrayList.add(request);
-
                     }
-                    adapter_request.notifyDataSetChanged();
+                    */
+                 //   adapter_request.notifyDataSetChanged();
                     Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                } else {
+                }
+                 else {
                     Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 }
 

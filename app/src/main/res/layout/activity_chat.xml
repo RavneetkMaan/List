@@ -1,60 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rel2"
+
+    android:id="@+id/rel1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="25dp"
     android:paddingLeft="25dp"
     android:paddingRight="25dp"
-    android:paddingTop="25dp">
+    android:paddingTop="25dp"
+    android:background="@drawable/wall4">
 
     <TextView
         android:id="@+id/txtBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
         android:background="@drawable/back1"
         android:textSize="25sp"
-        android:textStyle="bold"
-        android:layout_marginTop="13sp"/>
+        android:textStyle="bold" />
 
     <RelativeLayout
+        android:id="@+id/rel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/txtBack">
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="15sp"
-            android:background="@drawable/profile"/>
+            android:background="@drawable/profile" />
 
         <TextView
-            android:id="@+id/txtFullName"
+            android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15sp"
-           android:layout_toRightOf="@+id/imageView3"
+            android:layout_marginTop="12sp"
+            android:layout_toRightOf="@+id/imageView3"
             android:hint="Name"
-            android:textSize="20sp" />
-
+            android:textSize="15sp"
+            android:textColor="#000"
+            android:textStyle="bold"/>
 
 
     </RelativeLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="20sp"
         android:id="@+id/btnRefresh"
-        android:background="#000"
-        android:textSize="15sp"
-        android:text=" Refresh "
-        android:textColor="#89bfe5"
-        android:textStyle="bold"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15sp"/>
+        android:layout_marginTop="10sp"
+        android:background="@drawable/refresh1" />
+
+
+    <ListView
+        android:id="@+id/lvMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="300sp"
+        android:layout_below="@+id/rel2"></ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="bottom">
+
+        <EditText
+            android:id="@+id/edtMessage"
+            android:layout_width="220sp"
+            android:layout_height="40sp"
+            android:layout_below="@+id/lvMsg"
+            android:layout_marginTop="15sp"
+            android:hint=" Type Message "
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_below="@+id/lvMsg"
+            android:layout_marginLeft="8sp"
+            android:layout_marginTop="5sp"
+            android:layout_toRightOf="@+id/edtMessage"
+            android:background="@drawable/send"
+            android:onClick="true" />
+    </LinearLayout>
+
 
 </RelativeLayout>

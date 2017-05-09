@@ -21,13 +21,13 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                FragmentOne fragmentOne = new FragmentOne();
+                Fragment_Friends fragmentOne = new Fragment_Friends();
                 return fragmentOne;
             case 1:
-                FragmentTwo fragmentTwo = new FragmentTwo();
+                Fragment_Requests fragmentTwo = new Fragment_Requests();
                 return fragmentTwo;
             case 2:
-                FragmentThree fragmentThree = new FragmentThree();
+                Fragment_Members fragmentThree = new Fragment_Members();
                 return fragmentThree;
             default:
                 return null;

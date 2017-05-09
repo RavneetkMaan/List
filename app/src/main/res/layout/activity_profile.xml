@@ -23,7 +23,7 @@
                 android:id="@+id/profilePhoto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/tulips" />
+                android:background="@drawable/profile" />
         </LinearLayout>
 
 
@@ -112,6 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
+        android:contextClickable="true"
         android:src="@drawable/camera"
         app:backgroundTint="#fff"
         app:fabSize="normal"

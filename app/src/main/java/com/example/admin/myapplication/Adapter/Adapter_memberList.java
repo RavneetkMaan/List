@@ -25,6 +25,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by admin on 4/27/2017.
  */
@@ -47,6 +49,7 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
     private Button btnAddFriend;
     private ArrayList<Member> memberArrayList;
     private LayoutInflater inflater;
+    private String Tag;
     //private Button btnAddFriend;
 
     public Adapter_memberList(Context context, ArrayList<Member> memberArrayList) {
@@ -85,6 +88,8 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
         emailId = member.getEmailId();
         int mId = member.getMemberID();
         memberId = String.valueOf(mId);
+
+        btnAddFriend.setTag(memberId);
         //Button btnAdd = member.getBtnAddFriend();
 
         txt1.setText(name);
@@ -100,6 +105,7 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAddFriend:
+                Log.d(TAG, "onClick: ");
                 httpRequestProcessor = new HttpRequestProcessor();
                 response = new Response();
                 apiConfiguration = new ApiConfiguration();
@@ -111,6 +117,8 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
                 //Getting LoggedIn user Detail from SharedPreference
                 sharedPreferences = context.getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
                 loggedInId = sharedPreferences.getString(MyPref.LoggedInUserID, null);
+
+                memberId = (String) v.getTag();
 
                 new AddFriendTask(v).execute(memberId, loggedInId);
                 //Toast.makeText(context,"Clicked",Toast.LENGTH_LONG).show();
@@ -129,12 +137,14 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
 
         @Override
         protected String doInBackground(String... params) {
+            Log.d(TAG, "doInBackground: ");
 
             friendId = params[0];
             Log.e("friendId", friendId);
 
             loggedInId = params[1];
             Log.e("loggedInUserId", loggedInId);
+
             //requestBy = params[2];
 
             JSONObject jsonObject = new JSONObject();
@@ -146,6 +156,8 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
                 jsonObject.put("RequestBy", loggedInId);
                 jsonObject.put("CreatedBy", loggedInId);
                 jsonObject.put("ModifiedBy", loggedInId);
+
+               // btnAddFriend.getTag(Integer.parseInt(friendId));
 
                 jsonPostString = jsonObject.toString();
                 response = httpRequestProcessor.pOSTRequestProcessor(jsonPostString, urlAddFriend);
@@ -172,10 +184,11 @@ public class Adapter_memberList extends BaseAdapter implements View.OnClickListe
                 message = jsonObject.getString("message");
                 Log.d("message", message);
 
+               // btnAddFriend.setTag(friendId);
 
                 if (success) {
                     Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                    ((Button)view).setText("Request Sent");
+                    ((Button) view).setText("Request Sent");
 
                 } else {
                     Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();

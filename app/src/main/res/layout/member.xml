@@ -4,13 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="10sp"
+        android:background="@drawable/profile" />
 
     <RelativeLayout
         android:id="@+id/rel1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15sp"
         android:layout_marginTop="10sp"
         android:layout_toRightOf="@+id/imageView1">
 
@@ -18,6 +23,8 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:hint="Name"
             android:textColor="#000" />
 
@@ -26,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtName"
+            android:layout_marginLeft="10sp"
             android:hint="EmailId"
             android:textColor="#000" />
 
@@ -33,14 +41,14 @@
             android:id="@+id/btnAddFriend"
             android:layout_width="wrap_content"
             android:layout_height="25sp"
+            android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="180sp"
-            android:layout_marginTop="12sp"
+            android:layout_marginLeft="160sp"
 
+            android:layout_marginTop="12sp"
             android:background="#000"
             android:text=" ADD FRIEND "
             android:textColor="#89bfe5"
-            android:layout_alignParentRight="true"
             android:textSize="10sp"
             android:textStyle="bold" />
 

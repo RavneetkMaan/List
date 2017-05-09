@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * Created by admin on 3/30/2017.
  */
 
-public class FragmentOne extends Fragment implements AdapterView.OnItemClickListener {
+public class Fragment_Friends extends Fragment implements AdapterView.OnItemClickListener {
 
     private HttpRequestProcessor httpRequestProcessor;
     private Response response;
@@ -64,6 +64,7 @@ public class FragmentOne extends Fragment implements AdapterView.OnItemClickList
         httpRequestProcessor = new HttpRequestProcessor();
         response = new Response();
         apiConfiguration = new ApiConfiguration();
+
         sharedPreferences = getActivity().getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
         loggedInUserID = sharedPreferences.getString(MyPref.LoggedInUserID, null);
         logID = Integer.parseInt(loggedInUserID);
@@ -84,20 +85,15 @@ public class FragmentOne extends Fragment implements AdapterView.OnItemClickList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        /*if (position==0){
-            Intent i=new Intent(getActivity(),ChatActivity.class);
-            startActivity(i);
-        }
-        else {
-            Toast.makeText(getActivity(),"You pressed all other items",Toast.LENGTH_LONG).show();
-        }*/
 
-
-        // String name = ((TextView) view).getText().toString();
         friendList = friendListArrayList.get(position);
         name = friendList.getName();
+        int mID = friendList.getMemberId();
         Toast.makeText(getActivity(), name + " selected", Toast.LENGTH_LONG).show();
-        Intent i=new Intent(getActivity(),ChatActivity.class);
+        Intent i = new Intent(getActivity(), ChatActivity.class);
+        i.putExtra("friendID", mID);
+        i.putExtra("name",name);
+
         startActivity(i);
     }
 
@@ -129,11 +125,11 @@ public class FragmentOne extends Fragment implements AdapterView.OnItemClickList
                     JSONArray responseData = jsonObject.getJSONArray("responseData");
                     for (int i = 0; i < responseData.length(); i++) {
                         JSONObject object = responseData.getJSONObject(i);
-                        name = object.getString("MemberName");
-                        Log.d("MemberName", name);
+                        name = object.getString("FriendName");
+                        Log.d("FriendName", name);
 
-                        memberId = object.getString("MemberId");
-                        Log.d("MemberId", memberId);
+                        memberId = object.getString("FriendId");
+                        Log.d("FriendId", memberId);
                         memberID = Integer.parseInt(memberId);
 
                         friendList = new FriendList(name, memberID);
@@ -141,6 +137,7 @@ public class FragmentOne extends Fragment implements AdapterView.OnItemClickList
                     }
                     adapter_friendList.notifyDataSetChanged();
                     Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
                 } else {
                     Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 }

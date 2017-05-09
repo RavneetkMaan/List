@@ -6,17 +6,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class ChatListActivity extends AppCompatActivity {
 
@@ -78,9 +74,9 @@ public class ChatListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item1:
-                Intent intent=new Intent(ChatListActivity.this,FragmentThree.class);
+                Intent intent=new Intent(ChatListActivity.this,Fragment_Members.class);
                 startActivity(intent);
-                Toast.makeText(this, "Select New Chat", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Start New Chat", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.item2:
                 Toast.makeText(this, "Select Group Chat", Toast.LENGTH_LONG).show();
@@ -88,7 +84,7 @@ public class ChatListActivity extends AppCompatActivity {
             case R.id.item3:
                 Intent intent1=new Intent(ChatListActivity.this,SettingsActivity.class);
                 startActivity(intent1);
-                Toast.makeText(this, "Select Settings", Toast.LENGTH_LONG).show();
+               // Toast.makeText(this, "Select Settings", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return false;

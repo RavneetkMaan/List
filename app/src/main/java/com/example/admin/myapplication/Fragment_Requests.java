@@ -35,19 +35,20 @@ import java.util.ArrayList;
  * Created by admin on 3/30/2017.
  */
 
-public class FragmentTwo extends Fragment {
+public class Fragment_Requests extends Fragment {
 
     private HttpRequestProcessor httpRequestProcessor;
     private Response response;
     private ApiConfiguration apiConfiguration;
     private String baseURL, urlMyFriendRequest, jsonStringToPost, urlRequest;
     private boolean success;
-    private String message, name, jsonResponse, loggedInUserID,ApplicationFriendAssociationId;
+    private String message, name, jsonResponse, loggedInUserID,applicationFriendAssociationId;
 
     private Request request;
     private ArrayList<Request> RequestArrayList;
     String[] Name;
     Adapter_Request adapter_request;
+    private String memberName,friendName,friendId,memberId;
     private int memberID;
     private int ApplicationUserId;
     private SharedPreferences sharedPreferences;
@@ -71,7 +72,8 @@ public class FragmentTwo extends Fragment {
         //editor=sharedPreferences.edit();
        // editor.putString(MyPref.ApplicationFriendAssociationId,ApplicationFriendAssociationId);
         //editor.commit();
-
+        sharedPreferences = getActivity().getSharedPreferences(MyPref.Pref_Name,Context. MODE_PRIVATE);
+        memberId = sharedPreferences.getString(MyPref.ApplicationFriendAssociationId, null);
         //ApplicationFriendAssociationId=sharedPreferences.getString(MyPref.ApplicationFriendAssociationId,null);
        //ApplicationUserId=Integer.parseInt(ApplicationFriendAssociationId);
 
@@ -114,17 +116,25 @@ public class FragmentTwo extends Fragment {
                     JSONArray responseData = jsonObject.getJSONArray("responseData");
                     for (int i = 0; i < responseData.length(); i++) {
                         JSONObject object = responseData.getJSONObject(i);
-                        name = object.getString("MemberName");
-                        Log.d("MemberName", name);
+                        applicationFriendAssociationId = object.getString("ApplicationFriendAssociationId");
+                        memberId=object.getString("FriendId");
+                        Log.d("FriendId ",memberId);
 
-                        memberID = object.getInt("FriendId");
-                       ApplicationFriendAssociationId = object.getString("ApplicationFriendAssociationId");
-                       request = new Request(name, memberID,Integer.parseInt(ApplicationFriendAssociationId));
+                        friendId=object.getString("MemberId");
+                        Log.d("MemberId ", friendId);
 
-                        //sharedPreferences = Context.getSharedPreferences(MyPref.Pref_Name, Context.MODE_PRIVATE);
-                       // editor = sharedPreferences.edit();
-                        //editor.putString(MyPref.ApplicationFriendAssociationId,ApplicationFriendAssociationId);
-                        //editor.commit();
+                        memberName=object.getString("MemberName");
+                        Log.d("MemberName ",memberName);
+
+                        name=object.getString("FriendName");
+                        Log.d("FriendName ",name);
+
+                        sharedPreferences = getActivity().getSharedPreferences(MyPref.Pref_Name,Context.MODE_PRIVATE);
+                        editor = sharedPreferences.edit();
+                        editor.putString(MyPref.ApplicationFriendAssociationId,applicationFriendAssociationId);
+                        editor.commit();
+
+                       request = new Request(name, memberID,Integer.parseInt(applicationFriendAssociationId));
                         RequestArrayList.add(request);
 
                     }
